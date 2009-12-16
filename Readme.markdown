@@ -19,4 +19,4 @@ You can pass data to the server's Lua VM like this:
 
 You should note that it's only this easy because that's all it does. New features should be coming soon.
 
-Check out MoonWeasel/scripts/main.lua for an example of how to handle requests.
+Check out [main.lua](http://github.com/jcromartie/MoonWeasel/blob/master/MoonWeasel/scripts/main.lua) for an example of how to handle requests.
