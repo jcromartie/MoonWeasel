@@ -3,7 +3,7 @@
 //  MoonWeaselApp
 //
 //  Created by john on 12/16/09.
-//  Copyright 2009 __MyCompanyName__. All rights reserved.
+//  Copyright 2009 John Cromartie. All rights reserved.
 //
 
 #import "MoonWeasel.h"
