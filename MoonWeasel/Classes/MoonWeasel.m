@@ -81,6 +81,31 @@ void MoonWeaselHandler(struct mg_connection *conn,
 }
 
 
+- (void)pushObject:(id)obj {
+    if ([obj isKindOfClass:[NSDictionary class]]) {
+        // push a Lua table
+        lua_newtable(L);
+        for (id key in [obj allKeys]) {
+            [self pushObject:key];
+            [self pushObject:[obj objectForKey:key]];
+            lua_settable(L, -2);
+        }
+    } else if ([obj isKindOfClass:[NSNumber class]]) {
+        lua_pushnumber(L, [obj floatValue]);
+    } else if ([obj isKindOfClass:[NSString class]]) {
+        lua_pushstring(L, [obj UTF8String]);
+    } else {
+        lua_pushnil(L);
+    }
+}
+
+
+- (void)setGlobal:(NSString *)name value:(id)value {
+    [self pushObject:value];
+    lua_setglobal(L, [name UTF8String]);
+}
+
+
 - (void)handleRequest:(const struct mg_request_info *)info connection:(struct mg_connection *)conn {
     NSLog(@"Handler method");
 

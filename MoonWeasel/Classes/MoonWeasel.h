@@ -20,6 +20,8 @@
 - (void)start;
 - (void)stop;
 
+- (void)setGlobal:(NSString *)name value:(id)value;
+
 @property (nonatomic, assign) NSUInteger port;
 
 @end

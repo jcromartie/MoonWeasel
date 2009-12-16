@@ -26,7 +26,7 @@ local hits = 0
 
 handlers.hello = function(info)
   hits = hits + 1
-  return "Hey " .. (info.params.name or "stranger") .. ", you've been here: " .. hits .. " times"
+  return greeting .. " " .. (info.params.name or "stranger") .. ", you've been here: " .. hits .. " times"
 end
 
 handlers.fail = function(info)

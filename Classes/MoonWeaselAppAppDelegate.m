@@ -17,6 +17,7 @@
 
 - (void)applicationDidFinishLaunching:(UIApplication *)application {    
     MoonWeasel *server = [[MoonWeasel alloc] init];
+    [server setGlobal:@"greeting" value:@"Howdy!"];
     server.port = 8080;
     [server start];
     [window makeKeyAndVisible];
