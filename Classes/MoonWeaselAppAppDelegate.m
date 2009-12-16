@@ -17,12 +17,11 @@
 
 - (void)applicationDidFinishLaunching:(UIApplication *)application {    
     MoonWeasel *server = [[MoonWeasel alloc] init];
-    [server setGlobal:@"greeting" value:@"Howdy!"];
-    NSDictionary *dict = [NSDictionary dictionaryWithObjectsAndKeys:
-                          @"zort", @"foo",
-                          [NSNumber numberWithFloat:0.42], @"bar",
-                          nil];
-    [server setGlobal:@"stuff" value:dict];
+    [server setGlobal:@"greeting" value:@"Howdy "];
+    [server setGlobal:@"stuff" value:[NSDictionary dictionaryWithObjectsAndKeys:
+                                      @"zort", @"foo",
+                                      [NSNumber numberWithFloat:0.42], @"bar",
+                                      nil]];
     server.port = 8080;
     [server start];
     [window makeKeyAndVisible];
