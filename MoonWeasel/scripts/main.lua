@@ -11,7 +11,7 @@ end
 
 local handlers = {}
 
-function get(info)
+function moonweasel.handle(info)
   info.params = parseparams(info)
   local _, _, verb = info.uri:find('/(%w+)')
   local handler = handlers[verb]
@@ -33,4 +33,11 @@ end
 
 handlers.fail = function(info)
   return "one" + 1
+end
+
+function dostuff()
+  print "Hi there, this is dostuff()."
+  print("The path for main.lua is " .. moonweasel.delegate("pathForScript:", "main"))
+  print("My delegate is: " .. moonweasel.delegate("description"))
+  return { foo = 'bar', [1] = 42, 43, 44, "YES!" }
 end
