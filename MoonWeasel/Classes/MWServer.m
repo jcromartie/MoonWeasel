@@ -6,11 +6,11 @@
 //  Copyright 2009 John Cromartie. All rights reserved.
 //
 
-#import "MoonWeasel.h"
+#import "MWServer.h"
 
 #import "MWLuaVM.h"
 
-@interface MoonWeasel (Private)
+@interface MWServer (Private)
 - (void)handleRequest:(const struct mg_request_info *)info connection:(struct mg_connection *)conn;
 @end
 
@@ -18,11 +18,11 @@
 void MoonWeaselHandler(struct mg_connection *conn,
                        const struct mg_request_info *info, void *user_data)
 {
-    MoonWeasel *me = (MoonWeasel *)user_data;
+    MWServer *me = (MWServer *)user_data;
     [me handleRequest:info connection:conn];
 }
 
-@implementation MoonWeasel
+@implementation MWServer
 
 @synthesize port;
 @synthesize luaVM;

@@ -14,7 +14,7 @@
 		288765FD0DF74451002DB57D /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 288765FC0DF74451002DB57D /* CoreGraphics.framework */; };
 		28AD733F0D9D9553002E5188 /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 28AD733E0D9D9553002E5188 /* MainWindow.xib */; };
 		5222392410DDCBC60090FCFC /* MWLuaVM.m in Sources */ = {isa = PBXBuildFile; fileRef = 5222392310DDCBC60090FCFC /* MWLuaVM.m */; };
-		52CB527110D98E6100880A2B /* MoonWeasel.m in Sources */ = {isa = PBXBuildFile; fileRef = 52CB523210D98E6100880A2B /* MoonWeasel.m */; };
+		52CB527110D98E6100880A2B /* MWServer.m in Sources */ = {isa = PBXBuildFile; fileRef = 52CB523210D98E6100880A2B /* MWServer.m */; };
 		52CB527410D98E6100880A2B /* lapi.c in Sources */ = {isa = PBXBuildFile; fileRef = 52CB523710D98E6100880A2B /* lapi.c */; };
 		52CB527510D98E6100880A2B /* lauxlib.c in Sources */ = {isa = PBXBuildFile; fileRef = 52CB523910D98E6100880A2B /* lauxlib.c */; };
 		52CB527610D98E6100880A2B /* lbaselib.c in Sources */ = {isa = PBXBuildFile; fileRef = 52CB523B10D98E6100880A2B /* lbaselib.c */; };
@@ -61,8 +61,8 @@
 		32CA4F630368D1EE00C91783 /* MoonWeaselApp_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MoonWeaselApp_Prefix.pch; sourceTree = "<group>"; };
 		5222392210DDCBC60090FCFC /* MWLuaVM.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MWLuaVM.h; sourceTree = "<group>"; };
 		5222392310DDCBC60090FCFC /* MWLuaVM.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MWLuaVM.m; sourceTree = "<group>"; };
-		52CB523110D98E6100880A2B /* MoonWeasel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MoonWeasel.h; sourceTree = "<group>"; };
-		52CB523210D98E6100880A2B /* MoonWeasel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MoonWeasel.m; sourceTree = "<group>"; };
+		52CB523110D98E6100880A2B /* MWServer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MWServer.h; sourceTree = "<group>"; };
+		52CB523210D98E6100880A2B /* MWServer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MWServer.m; sourceTree = "<group>"; };
 		52CB523710D98E6100880A2B /* lapi.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = lapi.c; sourceTree = "<group>"; };
 		52CB523810D98E6100880A2B /* lapi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = lapi.h; sourceTree = "<group>"; };
 		52CB523910D98E6100880A2B /* lauxlib.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = lauxlib.c; sourceTree = "<group>"; };
@@ -208,8 +208,8 @@
 		52CB523010D98E6100880A2B /* Classes */ = {
 			isa = PBXGroup;
 			children = (
-				52CB523110D98E6100880A2B /* MoonWeasel.h */,
-				52CB523210D98E6100880A2B /* MoonWeasel.m */,
+				52CB523110D98E6100880A2B /* MWServer.h */,
+				52CB523210D98E6100880A2B /* MWServer.m */,
 				5222392210DDCBC60090FCFC /* MWLuaVM.h */,
 				5222392310DDCBC60090FCFC /* MWLuaVM.m */,
 			);
@@ -357,7 +357,7 @@
 			files = (
 				1D60589B0D05DD56006BFB54 /* main.m in Sources */,
 				1D3623260D0F684500981E51 /* MoonWeaselAppAppDelegate.m in Sources */,
-				52CB527110D98E6100880A2B /* MoonWeasel.m in Sources */,
+				52CB527110D98E6100880A2B /* MWServer.m in Sources */,
 				52CB527410D98E6100880A2B /* lapi.c in Sources */,
 				52CB527510D98E6100880A2B /* lauxlib.c in Sources */,
 				52CB527610D98E6100880A2B /* lbaselib.c in Sources */,

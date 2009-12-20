@@ -12,7 +12,7 @@
 
 @class MWLuaVM;
 
-@interface MoonWeasel : NSObject {
+@interface MWServer : NSObject {
     struct mg_context *mg;
     NSUInteger port;
     MWLuaVM *luaVM;

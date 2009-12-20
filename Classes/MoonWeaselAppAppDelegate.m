@@ -8,7 +8,7 @@
 
 #import "MoonWeaselAppAppDelegate.h"
 
-#import "MoonWeasel.h"
+#import "MWServer.h"
 #import "MWLuaVM.h"
 
 @implementation MoonWeaselAppAppDelegate
@@ -17,7 +17,7 @@
 
 
 - (void)applicationDidFinishLaunching:(UIApplication *)application {    
-    MoonWeasel *server = [[MoonWeasel alloc] init];
+    MWServer *server = [[MWServer alloc] init];
     server.luaVM.delegate = self;
     server.port = 8080;
     [server start];
