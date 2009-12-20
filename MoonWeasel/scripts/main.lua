@@ -28,7 +28,13 @@ handlers.hello = function(info)
   hits = hits + 1
   local greetstr = "<div>" .. greeting .. (info.params.name or "stranger") .. ", you've been here: " .. hits .. " times</div>"
   local stuffstr = "<div>foo = " .. stuff.foo .. ", bar = " .. stuff.bar .. "</div>"
-  moonweasel.delegate("setText:", "hits: " .. hits)
+
+  local headers = ""
+  for k, v in pairs(info.headers or {}) do
+    headers = headers .. k .. " => " .. v .. "\n"
+  end
+  moonweasel.delegate("setText:", headers)
+
   return greetstr .. stuffstr
 end
 

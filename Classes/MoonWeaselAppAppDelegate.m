@@ -33,10 +33,10 @@
     NSArray *results = [server.luaVM doString:@"return dostuff()"];
     NSLog(@"result #1 is %@", [results objectAtIndex:0]);
 
-    label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 320, 320)];
-    label.text = @"hi";
-    [window addSubview:label];
     [window makeKeyAndVisible];
+    textView = [[UITextView alloc] initWithFrame:window.bounds];
+    textView.text = @"waiting...";
+    [window addSubview:textView];
 }
 
 
@@ -46,7 +46,7 @@
 
 
 - (id)setText:(NSString *)text {
-    label.text = text;
+    textView.text = text;
     return nil;
 }
 

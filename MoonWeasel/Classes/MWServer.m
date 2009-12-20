@@ -80,6 +80,18 @@ void MoonWeaselHandler(struct mg_connection *conn,
     if (info->query_string) {
         [infoDict setObject:[NSString stringWithUTF8String:info->query_string] forKey:@"querystring"];
     }
+    if (0 < info->num_headers) {
+        NSMutableDictionary *headers = [NSMutableDictionary dictionaryWithCapacity:info->num_headers];
+        for (int ii = 0; ii < info->num_headers; ii++) {
+            char *name = info->http_headers[ii].name;
+            char *value = info->http_headers[ii].value;
+            if (name && value) {
+                [headers setObject:[NSString stringWithUTF8String:value]
+                            forKey:[NSString stringWithUTF8String:name]];
+            }
+        }
+        [infoDict setObject:headers forKey:@"headers"];
+    }
     id result = [luaVM callResultOfCode:@"return moonweasel.handle" withObject:infoDict];
     if (result) {
         mg_printf(conn, "HTTP/1.1 200 OK\r\n"
