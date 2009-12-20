@@ -33,12 +33,21 @@
     NSArray *results = [server.luaVM doString:@"return dostuff()"];
     NSLog(@"result #1 is %@", [results objectAtIndex:0]);
 
+    label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 320, 320)];
+    label.text = @"hi";
+    [window addSubview:label];
     [window makeKeyAndVisible];
 }
 
 
 - (id)pathForScript:(NSString *)name {
     return [[NSBundle mainBundle] pathForResource:name ofType:@"lua"];
+}
+
+
+- (id)setText:(NSString *)text {
+    label.text = text;
+    return nil;
 }
 
 

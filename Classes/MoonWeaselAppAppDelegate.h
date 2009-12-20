@@ -10,6 +10,7 @@
 
 @interface MoonWeaselAppAppDelegate : NSObject <UIApplicationDelegate> {
     UIWindow *window;
+    UILabel *label;
 }
 
 @property (nonatomic, retain) IBOutlet UIWindow *window;

@@ -12,34 +12,22 @@
 #import "lualib.h"
 #import "lauxlib.h"
 
-#define MW_SERVER_KEY "MoonWeasel_server"
 
+#define MW_VM_REGISTRY_KEY "MoonWeasel_VM"
 
 @interface MWLuaVM (Private)
 - (id)toObject:(int)idx;
+- (void)doDelegateMethod;
 - (id)performSelectorOnDelegate:(SEL)selector withObject:(id)obj;
 - (void)pushObject:(id)obj;
 @end
 
 
 int mw_delegate(lua_State *L) {
-    lua_getfield(L, LUA_REGISTRYINDEX, MW_SERVER_KEY);
+    lua_getfield(L, LUA_REGISTRYINDEX, MW_VM_REGISTRY_KEY);
     MWLuaVM *me = lua_touserdata(L, -1);
-    
-    if (me.delegate == nil) {
-        return 0;
-    }
-    
-    NSString *selName = [me toObject:1];
-    id obj = [me toObject:2];
-    if (selName) {
-        SEL selector = NSSelectorFromString(selName);
-        id result = [me performSelectorOnDelegate:selector withObject:obj];
-        [me pushObject:result];
-        return 1;
-    }
-    
-    return 0;
+    [me performSelectorOnMainThread:@selector(doDelegateMethod) withObject:nil waitUntilDone:YES];
+    return 1;
 }
 
 
@@ -58,7 +46,7 @@ luaL_Reg mw_lib[2] = {
         L = lua_open();
         luaL_openlibs(L);
         lua_pushlightuserdata(L, self);
-        lua_setfield(L, LUA_REGISTRYINDEX, MW_SERVER_KEY);
+        lua_setfield(L, LUA_REGISTRYINDEX, MW_VM_REGISTRY_KEY);
         luaL_register(L, "moonweasel", mw_lib);
         [self doFileNamed:@"main"];
         lua_settop(L, 0);
@@ -169,8 +157,17 @@ luaL_Reg mw_lib[2] = {
 }
 
 
-- (id)performSelectorOnDelegate:(SEL)selector withObject:(id)obj {
-    return [delegate performSelector:selector withObject:obj];
+- (void)doDelegateMethod {
+    NSString *selName = [self toObject:1];
+    id obj = [self toObject:2];
+    if (selName) {
+        SEL selector = NSSelectorFromString(selName);
+        id result = [delegate performSelector:selector withObject:obj];
+        [self pushObject:result];
+        [delegate performSelector:selector withObject:obj];
+    } else {
+        lua_pushnil(L);
+    }
 }
 
 
