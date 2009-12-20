@@ -9,6 +9,7 @@
 #import "MoonWeaselAppAppDelegate.h"
 
 #import "MoonWeasel.h"
+#import "MWLuaVM.h"
 
 @implementation MoonWeaselAppAppDelegate
 
@@ -17,19 +18,19 @@
 
 - (void)applicationDidFinishLaunching:(UIApplication *)application {    
     MoonWeasel *server = [[MoonWeasel alloc] init];
-    server.delegate = self;
+    server.luaVM.delegate = self;
     server.port = 8080;
     [server start];
 
     // push some objects
-    [server setGlobal:@"greeting" value:@"Howdy "];
-    [server setGlobal:@"stuff" value:[NSDictionary dictionaryWithObjectsAndKeys:
+    [server.luaVM setGlobal:@"greeting" value:@"Howdy "];
+    [server.luaVM setGlobal:@"stuff" value:[NSDictionary dictionaryWithObjectsAndKeys:
                                       @"zort", @"foo",
                                       [NSNumber numberWithFloat:0.42], @"bar",
                                       nil]];
 
     // run a little code
-    NSArray *results = [server doString:@"return dostuff()"];
+    NSArray *results = [server.luaVM doString:@"return dostuff()"];
     NSLog(@"result #1 is %@", [results objectAtIndex:0]);
 
     [window makeKeyAndVisible];

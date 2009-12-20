@@ -8,32 +8,22 @@
 
 #import <Foundation/Foundation.h>
 
-#import "lua.h"
 #import "mongoose.h"
 
+@class MWLuaVM;
+
 @interface MoonWeasel : NSObject {
-    lua_State *L;
     struct mg_context *mg;
     NSUInteger port;
-    id delegate;
+    MWLuaVM *luaVM;
 }
 
 // you can set the port at any point in the server's lifecyle
 @property (nonatomic, assign) NSUInteger port;
-@property (nonatomic, assign) id delegate;
+@property (nonatomic, readonly) MWLuaVM *luaVM;
 
 // starts and stops the web server
 - (void)start;
 - (void)stop;
-
-- (void)doFile:(NSString *)path;
-
-// evaluates a file by looking up a .lua file in the bundle
-- (void)doFileNamed:(NSString *)name;
-
-// evaluates the Lua code string returning an array of results (since Lua allows multiple return values)
-- (NSArray *)doString:(NSString *)code;
-
-- (void)setGlobal:(NSString *)name value:(id)value;
 
 @end
