@@ -8,7 +8,9 @@
 
 #import <UIKit/UIKit.h>
 
-@interface MoonWeaselAppAppDelegate : NSObject <UIApplicationDelegate> {
+#import "MWLuaVMDelegate.h"
+
+@interface MoonWeaselAppAppDelegate : NSObject <UIApplicationDelegate, MWLuaVMDelegate> {
     UIWindow *window;
     UITextView *textView;
 }

@@ -8,8 +8,7 @@
 
 #import "MoonWeaselAppAppDelegate.h"
 
-#import "MWServer.h"
-#import "MWLuaVM.h"
+#import "MoonWeasel.h"
 
 @implementation MoonWeaselAppAppDelegate
 
@@ -22,22 +21,28 @@
     server.port = 8080;
     [server start];
 
-    // push some objects
-    [server.luaVM setGlobal:@"greeting" value:@"Howdy "];
-    [server.luaVM setGlobal:@"stuff" value:[NSDictionary dictionaryWithObjectsAndKeys:
-                                      @"zort", @"foo",
-                                      [NSNumber numberWithFloat:0.42], @"bar",
-                                      nil]];
-
     // run a little code
     NSArray *results = [server.luaVM doString:@"return dostuff()"];
-    NSLog(@"result #1 is %@", [results objectAtIndex:0]);
+    NSDictionary *table = [results objectAtIndex:0];
+    NSLog(@"result #1 is %@", table);
+    NSLog(@"calling fn yields: %@", [[table objectForKey:@"fn"] callWithObject:@"Hello!"]);
+
+    [server.luaVM doString:@"greeting = \"Hello, \""];
 
     [window makeKeyAndVisible];
     textView = [[UITextView alloc] initWithFrame:window.bounds];
     textView.text = @"waiting...";
     [window addSubview:textView];
 }
+
+
+- (void)dealloc {
+    [window release];
+    [super dealloc];
+}
+
+
+#pragma mark MoonWeasel delegate methods
 
 
 - (id)pathForScript:(NSString *)name {
@@ -51,9 +56,17 @@
 }
 
 
-- (void)dealloc {
-    [window release];
-    [super dealloc];
+- (id)contentsOfFileNamed:(NSString *)name {
+    NSString *path = [[NSBundle mainBundle] pathForResource:name ofType:nil];
+    return [NSString stringWithContentsOfFile:path encoding:NSUTF8StringEncoding error:NULL];
+}
+
+
+#pragma mark Lua error methods
+
+
+- (void)luaVM:(MWLuaVM *)vm didError:(NSString *)error {
+    NSLog(@"Oops! there was an error in Lua: %@", error);
 }
 
 

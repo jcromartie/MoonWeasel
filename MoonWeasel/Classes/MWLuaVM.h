@@ -3,31 +3,31 @@
 //  MoonWeaselApp
 //
 //  Created by john on 12/19/09.
-//  Copyright 2009 __MyCompanyName__. All rights reserved.
+//  Copyright 2009 John Cromartie. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
 
+#import <Foundation/Foundation.h>
+#import "MWLuaVMDelegate.h"
 #import "lua.h"
+
+@class MWLuaFunction;
 
 @interface MWLuaVM : NSObject {
     lua_State *L;
-    id delegate;
+    id <MWLuaVMDelegate> delegate;
 }
 
-@property (nonatomic, assign) id delegate;
+@property (nonatomic, assign) id <MWLuaVMDelegate> delegate;
 
+// evaluates the file at the given path
 - (void)doFile:(NSString *)path;
 
-// evaluates a file by looking up a .lua file in the bundle
+// evaluates a ".lua" file in the main bundle
+// NOTE: omit ".lua" from the name
 - (void)doFileNamed:(NSString *)name;
 
 // evaluates the Lua code string returning an array of results (since Lua allows multiple return values)
 - (NSArray *)doString:(NSString *)code;
-
-// evaluates the Lua code and then calls it withe the single object argument
-- (id)callResultOfCode:(NSString *)code withObject:(id)obj;
-
-- (void)setGlobal:(NSString *)name value:(id)value;
 
 @end

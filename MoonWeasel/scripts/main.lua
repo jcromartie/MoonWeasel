@@ -15,7 +15,13 @@ function moonweasel.handle(info)
   info.params = parseparams(info)
   local _, _, verb = info.uri:find('/(%w+)')
   local handler = handlers[verb]
-  return handler and handler(info) or "Unknown handler"
+  return handler and handler(info) or handlers.default(info)
+end
+
+function handlers.default(info)
+  local _, _, path = info.uri:find('/(.*)')
+  local text = moonweasel.delegate("contentsOfFileNamed:", path)
+  return text or "<h1>404ed!</h1>"
 end
 
 -- =====================
@@ -27,7 +33,6 @@ local hits = 0
 handlers.hello = function(info)
   hits = hits + 1
   local greetstr = "<div>" .. greeting .. (info.params.name or "stranger") .. ", you've been here: " .. hits .. " times</div>"
-  local stuffstr = "<div>foo = " .. stuff.foo .. ", bar = " .. stuff.bar .. "</div>"
 
   local headers = ""
   for k, v in pairs(info.headers or {}) do
@@ -35,7 +40,7 @@ handlers.hello = function(info)
   end
   moonweasel.delegate("setText:", headers)
 
-  return greetstr .. stuffstr
+  return greetstr
 end
 
 handlers.fail = function(info)
@@ -46,5 +51,10 @@ function dostuff()
   print "Hi there, this is dostuff()."
   print("The path for main.lua is " .. moonweasel.delegate("pathForScript:", "main"))
   print("My delegate is: " .. moonweasel.delegate("description"))
-  return { foo = 'bar', [1] = 42, 43, 44, "YES!" }
+  local tab = {
+    foo = 'bar',
+    fn = function(x) print("Lua says: " .. x) end,
+  }
+  local list = { 42, 43, 44, "OH YEAH"}
+  return tab, list
 end

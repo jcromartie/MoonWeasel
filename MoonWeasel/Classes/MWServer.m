@@ -9,6 +9,8 @@
 #import "MWServer.h"
 
 #import "MWLuaVM.h"
+#import "MWLuaVM_Internal.h"
+#import "MWLuaFunction.h"
 
 @interface MWServer (Private)
 - (void)handleRequest:(const struct mg_request_info *)info connection:(struct mg_connection *)conn;
@@ -92,7 +94,11 @@ void MoonWeaselHandler(struct mg_connection *conn,
         }
         [infoDict setObject:headers forKey:@"headers"];
     }
-    id result = [luaVM callResultOfCode:@"return moonweasel.handle" withObject:infoDict];
+
+    // get and call the handle
+    MWLuaFunction *handle = [[luaVM doString:@"return moonweasel.handle"] objectAtIndex:0];
+    id result = [handle callWithObject:infoDict];
+
     if (result) {
         mg_printf(conn, "HTTP/1.1 200 OK\r\n"
                   "content-Type: text/html\r\n\r\n"

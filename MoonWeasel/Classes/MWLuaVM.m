@@ -3,10 +3,14 @@
 //  MoonWeaselApp
 //
 //  Created by john on 12/19/09.
-//  Copyright 2009 __MyCompanyName__. All rights reserved.
+//  Copyright 2009 John Cromartie. All rights reserved.
 //
 
 #import "MWLuaVM.h"
+#import "MWLuaVM_Internal.h"
+
+#import "MWLuaFunction.h"
+#import "MWLuaFunction_Internal.h"
 
 #import "lapi.h"
 #import "lualib.h"
@@ -17,7 +21,7 @@
 
 @interface MWLuaVM (Private)
 - (id)toObject:(int)idx;
-- (void)doDelegateMethod;
+- (void)performDelegateMethod;
 - (id)performSelectorOnDelegate:(SEL)selector withObject:(id)obj;
 - (void)pushObject:(id)obj;
 @end
@@ -26,7 +30,7 @@
 int mw_delegate(lua_State *L) {
     lua_getfield(L, LUA_REGISTRYINDEX, MW_VM_REGISTRY_KEY);
     MWLuaVM *me = lua_touserdata(L, -1);
-    [me performSelectorOnMainThread:@selector(doDelegateMethod) withObject:nil waitUntilDone:YES];
+    [me performSelectorOnMainThread:@selector(performDelegateMethod) withObject:nil waitUntilDone:YES];
     return 1;
 }
 
@@ -110,6 +114,12 @@ luaL_Reg mw_lib[2] = {
             }
             return dict;
         }
+        case LUA_TFUNCTION: {
+            lua_pushvalue(L, stackIdx);
+            int ref = luaL_ref(L, LUA_REGISTRYINDEX);
+            MWLuaFunction *function = [[MWLuaFunction alloc] initWithRef:ref inVM:self];
+            return [function autorelease];
+        }
         default:
             return nil;
     }
@@ -144,6 +154,8 @@ luaL_Reg mw_lib[2] = {
         lua_pushnumber(L, [obj floatValue]);
     } else if ([obj isKindOfClass:[NSString class]]) {
         lua_pushstring(L, [obj UTF8String]);
+    } else if ([obj isKindOfClass:[MWLuaFunction class]]) {
+        luaL_unref(L, LUA_REGISTRYINDEX, [obj ref]);
     } else {
         lua_pushnil(L);
     }
@@ -157,7 +169,7 @@ luaL_Reg mw_lib[2] = {
 }
 
 
-- (void)doDelegateMethod {
+- (void)performDelegateMethod {
     NSString *selName = [self toObject:1];
     id obj = [self toObject:2];
     if (selName) {
@@ -168,6 +180,26 @@ luaL_Reg mw_lib[2] = {
     } else {
         lua_pushnil(L);
     }
+}
+
+
+- (id)callFunction:(MWLuaFunction *)fn withObject:(id)obj {
+    id result = nil;
+    lua_rawgeti(L, LUA_REGISTRYINDEX, [fn ref]);
+    [self pushObject:obj];
+    if (lua_pcall(L, 1, 1, 0)) {
+        NSString *error = [NSString stringWithUTF8String:lua_tostring(L, -1)];
+        [delegate luaVM:self didError:error];
+    } else {
+        result = [self toObject:-1];
+    }
+    lua_settop(L, 0);
+    return result;
+}
+
+
+- (void)unregister:(MWLuaFunction *)fn {
+    luaL_unref(L, LUA_REGISTRYINDEX, [fn ref]);
 }
 
 
