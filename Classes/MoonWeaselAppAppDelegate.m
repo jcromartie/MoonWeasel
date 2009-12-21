@@ -30,7 +30,7 @@
     [server.luaVM doString:@"greeting = \"Hello, \""];
 
     [window makeKeyAndVisible];
-    textView = [[UITextView alloc] initWithFrame:window.bounds];
+    textView = [[UITextView alloc] initWithFrame:CGRectMake(0, 20, 320, 400)];
     textView.text = @"waiting...";
     [window addSubview:textView];
 }

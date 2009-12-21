@@ -207,11 +207,11 @@
 		52CB522F10D98E6100880A2B /* MoonWeasel */ = {
 			isa = PBXGroup;
 			children = (
+				52223A0C10DE81F40090FCFC /* MoonWeasel.h */,
 				52CB523010D98E6100880A2B /* Classes */,
 				52CB523310D98E6100880A2B /* lua */,
 				52CB526C10D98E6100880A2B /* mongoose */,
 				52CB526F10D98E6100880A2B /* scripts */,
-				52223A0C10DE81F40090FCFC /* MoonWeasel.h */,
 			);
 			path = MoonWeasel;
 			sourceTree = "<group>";
